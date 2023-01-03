@@ -1,0 +1,62 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100%;
+    color: #000;
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+}
+
+#app {
+    height: 100%;
+}
+
+.content {
+    width: 800px;
+    border: 1px solid #ccc;
+    margin: 40px auto;
+    padding: 20px;
+    position: relative;
+}
+
+.content:focus-visible {
+    outline: none;
+}
+
+.selection {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    animation: cursor-blink 1s step-end infinite;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes cursor-blink {
+
+    from,
+    to {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
