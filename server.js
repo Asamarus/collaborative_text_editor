@@ -81,6 +81,15 @@ wss.on('connection', function connection(ws) {
 				message: { type: 'new_selections', selections: userSelections },
 				excludeClientId: ws.id,
 			});
+		} else if (message.type === 'clear_selection') {
+			const { [ws.id]: valueToRemove, ...newUserSelections } = userSelections;
+			userSelections = newUserSelections;
+
+			broadcastMessage({
+				ws,
+				message: { type: 'new_selections', selections: userSelections },
+				excludeClientId: ws.id,
+			});
 		}
 	});
 

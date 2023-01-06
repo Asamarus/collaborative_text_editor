@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import debounce from 'debounce';
@@ -26,21 +26,12 @@ function App() {
 			handleMessage(JSON.parse(event.data));
 		};
 
-		const hasSelectionChange = 'onselectionchange' in document;
-		const events = hasSelectionChange
-			? 'selectionchange'
-			: 'mousemove mouseup keypress keydown keyup';
-
-		events.split(' ').forEach((e) => {
-			document.addEventListener(e, onSelectionChange);
-		});
+		document.addEventListener('selectionchange', onSelectionChange);
 
 		return () => {
 			isMounted.current = false;
 			ws.current.close();
-			events.split(' ').forEach((e) => {
-				document.removeEventListener(e, onSelectionChange);
-			});
+			document.removeEventListener('selectionchange', onSelectionChange);
 		};
 	}, []);
 
@@ -72,6 +63,13 @@ function App() {
 
 	const onSelectionChange = () => {
 		const selection = document.getSelection();
+
+		console.log('onSelectionChange', { selection });
+
+		if (selection.type === 'None') {
+			broadcast({ type: MessageType.ClearSelection, value: '' });
+		}
+
 		if (selection.rangeCount === 0) {
 			return;
 		}

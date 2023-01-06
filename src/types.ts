@@ -2,6 +2,7 @@ export enum MessageType {
 	Init = 'init',
 	NewContent = 'new_content',
 	NewSelections = 'new_selections',
+	ClearSelection = 'clear_selection',
 }
 
 type Selection = {
